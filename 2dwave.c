@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define NX 1000
-#define NY 1000
+#define NX 3000
+#define NY 3000
 #define STEPS 10000
 #define SAVE_INTERVAL 5000   // Save every 100 steps
 
