@@ -3,9 +3,9 @@
 #include <math.h>
 #include <cuda_runtime.h>
 
-#define NX 100
-#define NY 100
-#define STEPS 100000
+#define NX 1000
+#define NY 1000
+#define STEPS 10000
 #define SAVE_INTERVAL 10
 
 const double c = 1.0;
@@ -26,10 +26,10 @@ do { \
 
 // Allocate host 2D array for saving
 double** allocate_2d_array_host(int nx, int ny) {
-    double** arr = (double**)cudamalloc(nx * sizeof(double*));
+    double** arr = (double**)malloc(nx * sizeof(double*));
     if (!arr) { fprintf(stderr, "Allocation failed\n"); exit(1); }
     for (int i = 0; i < nx; i++) {
-        arr[i] = (double*)cudamalloc(ny * sizeof(double));
+        arr[i] = (double*)malloc(ny * sizeof(double));
         if (!arr[i]) { fprintf(stderr, "Allocation failed\n"); exit(1); }
     }
     return arr;
