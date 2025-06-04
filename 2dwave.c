@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define NX 3000
-#define NY 3000
-#define STEPS 10000
-#define SAVE_INTERVAL 1000   // Save every 100 steps
+#define NX 1000
+#define NY 1000
+#define STEPS 1000
+#define SAVE_INTERVAL 25   // Save every 100 steps
 
 const double c = 1.0;
 const double dx = 0.01;
