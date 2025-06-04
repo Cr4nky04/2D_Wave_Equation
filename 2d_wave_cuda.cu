@@ -42,7 +42,7 @@ void free_2d_array_host(double** arr, int nx) {
 
 void save_to_csv(double** arr, int step) {
     char filename[64];
-    snprintf(filename, sizeof(filename), "wave_step_%04d.csv", step);
+    snprintf(filename, sizeof(filename), "cuda_wave_step_%04d.csv", step);
     FILE* f = fopen(filename, "w");
     if (!f) {
         fprintf(stderr, "Error opening %s\n", filename);
