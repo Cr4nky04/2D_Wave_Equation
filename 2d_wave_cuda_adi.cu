@@ -5,7 +5,7 @@
 
 #define NX 1000
 #define NY 1000
-#define STEPS 5000
+#define STEPS 10000
 #define SAVE_INTERVAL 5000  // Save every 100 steps
 
 const double c = 1.0;  // Speed of the wave
