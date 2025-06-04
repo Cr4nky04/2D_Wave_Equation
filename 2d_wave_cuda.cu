@@ -56,7 +56,6 @@ void save_to_csv(double** arr, int step) {
         fprintf(f, "\n");
     }
     fclose(f);
-    printf("Saved wave data to %s\n", filename);
 }
 
 // CUDA kernels ----------------------------------
