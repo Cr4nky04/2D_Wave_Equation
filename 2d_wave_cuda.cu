@@ -5,7 +5,7 @@
 
 #define NX 1000
 #define NY 1000
-#define STEPS 10000
+#define STEPS 5000
 #define SAVE_INTERVAL 1000
 
 const double c = 1.0;
