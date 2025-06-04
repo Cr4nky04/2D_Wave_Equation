@@ -19,13 +19,13 @@ double** u_curr;
 double** u_next;
 
 double** allocate_2d_array(int nx, int ny) {
-    double** arr = malloc(nx * sizeof(double*));
+    double** arr = cudamalloc(nx * sizeof(double*));
     if (!arr) {
         fprintf(stderr, "Allocation failed\n");
         exit(1);
     }
     for (int i = 0; i < nx; i++) {
-        arr[i] = malloc(ny * sizeof(double));
+        arr[i] = cudamalloc(ny * sizeof(double));
         if (!arr[i]) {
             fprintf(stderr, "Allocation failed\n");
             exit(1);
