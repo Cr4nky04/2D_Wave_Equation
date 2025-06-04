@@ -139,7 +139,7 @@ int main() {
     CUDA_CHECK(cudaMalloc(&d_u_curr, size));
     CUDA_CHECK(cudaMalloc(&d_u_next, size));
 
-    dim3 blockSize(256, 256);  // 16x16 threads per block
+    dim3 blockSize(32, 32);  // 16x16 threads per block
     dim3 gridSize((NX + blockSize.x - 1) / blockSize.x, (NY + blockSize.y - 1) / blockSize.y);
 
     // Initialize the wave on the device
