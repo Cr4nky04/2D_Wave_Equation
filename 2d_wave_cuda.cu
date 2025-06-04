@@ -26,10 +26,10 @@ do { \
 
 // Allocate host 2D array for saving
 double** allocate_2d_array_host(int nx, int ny) {
-    double** arr = (double**)malloc(nx * sizeof(double*));
+    double** arr = (double**)cudamalloc(nx * sizeof(double*));
     if (!arr) { fprintf(stderr, "Allocation failed\n"); exit(1); }
     for (int i = 0; i < nx; i++) {
-        arr[i] = (double*)malloc(ny * sizeof(double));
+        arr[i] = (double*)cudamalloc(ny * sizeof(double));
         if (!arr[i]) { fprintf(stderr, "Allocation failed\n"); exit(1); }
     }
     return arr;
