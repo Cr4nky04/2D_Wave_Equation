@@ -24,6 +24,21 @@ do { \
     } \
 } while (0)
 
+double** allocate_2d_array_host(int nx, int ny) {
+    double** arr = (double**)malloc(nx * sizeof(double*));
+    if (!arr) { fprintf(stderr, "Allocation failed\n"); exit(1); }
+    for (int i = 0; i < nx; i++) {
+        arr[i] = (double*)malloc(ny * sizeof(double));
+        if (!arr[i]) { fprintf(stderr, "Allocation failed\n"); exit(1); }
+    }
+    return arr;
+}
+
+void free_2d_array_host(double** arr, int nx) {
+    for (int i = 0; i < nx; i++) free(arr[i]);
+    free(arr);
+}
+
 // CUDA Kernel: Initialize wave matrix (same as in acoustic wave equation)
 __global__ void initialize_wave_kernel(double* u_prev, double* u_curr, double* u_next, int nx, int ny, double dx, double dy, double sigma) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
