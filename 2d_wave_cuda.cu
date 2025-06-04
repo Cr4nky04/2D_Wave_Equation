@@ -146,7 +146,7 @@ int main() {
     CUDA_CHECK(cudaMalloc(&d_u_curr, size));
     CUDA_CHECK(cudaMalloc(&d_u_next, size));
 
-    dim3 blockSize(32, 32);
+    dim3 blockSize(64, 64);
     dim3 gridSize((NX + blockSize.x - 1) / blockSize.x, (NY + blockSize.y - 1) / blockSize.y);
 
     // Initialize on device
