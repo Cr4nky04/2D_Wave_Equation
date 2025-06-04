@@ -3,10 +3,10 @@
 #include <math.h>
 #include <cuda_runtime.h>
 
-#define NX 200
-#define NY 200
+#define NX 1000
+#define NY 1000
 #define STEPS 1000
-#define SAVE_INTERVAL 10
+#define SAVE_INTERVAL 1000
 
 const double c = 1.0;
 const double dx = 0.01;
