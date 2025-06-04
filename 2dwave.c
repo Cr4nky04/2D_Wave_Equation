@@ -69,7 +69,7 @@ void initialize_wave() {
 // Save current wave state to CSV file
 void save_to_csv(double** arr, int step) {
     char filename[64];
-    snprintf(filename, sizeof(filename), "wave_step_%04d.csv", step);
+    snprintf(filename, sizeof(filename), "c_wave_step_%04d.csv", step);
 
     FILE* f = fopen(filename, "w");
     if (!f) {
