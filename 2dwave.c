@@ -42,8 +42,8 @@ void free_2d_array(double** arr, int nx) {
 }
 
 void initialize_wave() {
-    int cx = NX / 3;
-    int cy = NY / 3;
+    int cx = NX / 2;
+    int cy = NY / 2;
     double sigma = 0.05;
 
     for (int i = 0; i < NX; i++) {
