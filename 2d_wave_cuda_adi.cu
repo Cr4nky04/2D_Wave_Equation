@@ -94,7 +94,7 @@ __global__ void apply_boundary_conditions_kernel(double* u, int nx, int ny) {
 // Save the wave matrix to CSV file (host function)
 void save_to_csv(double** arr, int step) {
     char filename[64];
-    snprintf(filename, sizeof(filename), "cuda_wave_step_%04d.csv", step);
+    snprintf(filename, sizeof(filename), "cuda_adi_wave_step_%04d.csv", step);
     FILE* f = fopen(filename, "w");
     if (!f) {
         fprintf(stderr, "Error opening %s\n", filename);
