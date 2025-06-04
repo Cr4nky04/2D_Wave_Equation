@@ -5,8 +5,8 @@
 
 #define NX 1000
 #define NY 1000
-#define STEPS 1000
-#define SAVE_INTERVAL 50
+#define STEPS 10000
+#define SAVE_INTERVAL 100
 
 const double c = 1.0;
 const double dx = 0.01;
@@ -145,7 +145,7 @@ int main() {
     CUDA_CHECK(cudaMalloc(&d_u_curr, size));
     CUDA_CHECK(cudaMalloc(&d_u_next, size));
 
-    dim3 blockSize(32, 32);
+    dim3 blockSize(256, 256);
     dim3 gridSize((NX + blockSize.x - 1) / blockSize.x, (NY + blockSize.y - 1) / blockSize.y);
 
     // Initialize on device
