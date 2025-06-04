@@ -24,7 +24,6 @@ do { \
     } \
 } while (0)
 
-// Allocate host 2D array for saving
 double** allocate_2d_array_host(int nx, int ny) {
     double** arr = (double**)malloc(nx * sizeof(double*));
     if (!arr) { fprintf(stderr, "Allocation failed\n"); exit(1); }
@@ -59,8 +58,6 @@ void save_to_csv(double** arr, int step) {
 }
 
 // CUDA kernels ----------------------------------
-
-// Initialize wave: u_prev = 0, u_next = 0, u_curr = Gaussian
 __global__ void initialize_wave_kernel(double* u_prev, double* u_curr, double* u_next,
     int nx, int ny, double dx, double dy, double sigma) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -78,7 +75,6 @@ __global__ void initialize_wave_kernel(double* u_prev, double* u_curr, double* u
     }
 }
 
-// Initialize u_prev for first step (zero initial velocity)
 __global__ void initialize_prev_kernel(double* u_prev, double* u_curr, int nx, int ny, double r) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     int j = blockIdx.y * blockDim.y + threadIdx.y;
@@ -97,7 +93,6 @@ __global__ void initialize_prev_kernel(double* u_prev, double* u_curr, int nx, i
 }
 
 
-// Wave update kernel for each step
 __global__ void wave_step_kernel(double* u_prev, double* u_curr, double* u_next,
     int nx, int ny, double r) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -116,7 +111,6 @@ __global__ void wave_step_kernel(double* u_prev, double* u_curr, double* u_next,
     }
 }
 
-// Apply zero boundary conditions
 __global__ void apply_boundary_conditions_kernel(double* u, int nx, int ny) {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -130,8 +124,10 @@ __global__ void apply_boundary_conditions_kernel(double* u, int nx, int ny) {
     }
 }
 
-// ---------------------------------------------
 
+
+
+// ---------------------------------------------
 int main() {
     r = c * dt / dx;
     if (r >= 1 / sqrt(2)) {
@@ -140,7 +136,6 @@ int main() {
 
     size_t size = NX * NY * sizeof(double);
 
-    // Allocate device arrays
     double* d_u_prev, * d_u_curr, * d_u_next;
     CUDA_CHECK(cudaMalloc(&d_u_prev, size));
     CUDA_CHECK(cudaMalloc(&d_u_curr, size));
@@ -149,14 +144,16 @@ int main() {
     dim3 blockSize(32, 32);
     dim3 gridSize((NX + blockSize.x - 1) / blockSize.x, (NY + blockSize.y - 1) / blockSize.y);
 
-    // Initialize on device
+
+
     initialize_wave_kernel << <gridSize, blockSize >> > (d_u_prev, d_u_curr, d_u_next, NX, NY, dx, dy, 0.05);
     CUDA_CHECK(cudaDeviceSynchronize());
 
     initialize_prev_kernel << <gridSize, blockSize >> > (d_u_prev, d_u_curr, NX, NY, r);
     CUDA_CHECK(cudaDeviceSynchronize());
 
-    // Allocate host 2D array for saving CSV
+
+
     double** h_u_curr = allocate_2d_array_host(NX, NY);
 
     for (int step = 1; step <= STEPS; step++) {
@@ -170,13 +167,11 @@ int main() {
         apply_boundary_conditions_kernel << <grid1D, block1D >> > (d_u_next, NX, NY);
         CUDA_CHECK(cudaDeviceSynchronize());
 
-        // Swap pointers
         double* temp = d_u_prev;
         d_u_prev = d_u_curr;
         d_u_curr = d_u_next;
         d_u_next = temp;
 
-        // Save every SAVE_INTERVAL steps
         if (step % SAVE_INTERVAL == 0) {
             double* flat_arr = (double*)malloc(size);
             CUDA_CHECK(cudaMemcpy(flat_arr, d_u_curr, size, cudaMemcpyDeviceToHost));
@@ -190,7 +185,6 @@ int main() {
         }
     }
 
-    // Free memory
     free_2d_array_host(h_u_curr, NX);
     CUDA_CHECK(cudaFree(d_u_prev));
     CUDA_CHECK(cudaFree(d_u_curr));
